@@ -1,0 +1,9 @@
+Descripcion principal:
+El juego se basara en un personaje el cual empezara en la era antigua y a medida que pase el juego iran mejorando sus armas de tiro
+esta evolucion se dara mediante power ups que se recogeran en el camino, el juego solo tengra un nivel el cual sera largo y tambien
+ira evolucionando a medida que el jugador vaya avanzando, la ropa del jugador tambien cambiara dependiendo de la epoca.
+cada arma tendra; su velocidad, caida, y daño.
+sera un juego de plataformas en 2d.
+el juego tendra una meta para saber si has ganado.
+el juego tendra 5 vidas.
+ya que solo sera un nivel largo el juego tendra check points.
