@@ -1,37 +1,31 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QKeyEvent>
-#include <QTimer>
+#include "personaje.h"
+#include "entidad.h" // Incluir entidad.h
 
+namespace Ui {
+class MainWindow;
+}
 
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    //void keyPressEvent(QKeyEvent *event);
-
-//private slots:
-
-    //void on_pushButton_clicked();
-
-    //void hmov();
+private slots:
+    void followPlayer();
 
 private:
-    int vel;
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
-    QGraphicsRectItem *barra;
-    QTimer *timer;};
+    Personaje *personaje;
+    Entidad *entidad; // Declarar entidad
+};
+
 #endif // MAINWINDOW_H
+

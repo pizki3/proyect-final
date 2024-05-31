@@ -17,11 +17,14 @@
    <widget class="QGraphicsView" name="marcoVisualdeljuego">
     <property name="geometry">
      <rect>
-      <x>-95</x>
-      <y>-9</y>
+      <x>0</x>
+      <y>0</y>
       <width>1024</width>
       <height>667</height>
      </rect>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAsNeeded</enum>
     </property>
    </widget>
   </widget>
