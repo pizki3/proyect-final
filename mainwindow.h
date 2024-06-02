@@ -24,7 +24,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     Personaje *personaje;
-    Entidad *entidad; // Declarar entidad
+    std::vector<Entidad*> entidades; // Declarar entidad
 };
 
 #endif // MAINWINDOW_H

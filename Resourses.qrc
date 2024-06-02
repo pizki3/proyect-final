@@ -3,5 +3,8 @@
         <file>images/Fondo.jpg</file>
         <file>images/Bloques/Suelo.png</file>
         <file>images/Personaje principal/Personaje.png</file>
+        <file>images/Bloques/Madera.png</file>
+        <file>images/Bloques/Madera2.png</file>
+        <file>images/Bloques/Madera3.png</file>
     </qresource>
 </RCC>
