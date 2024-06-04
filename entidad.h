@@ -3,6 +3,7 @@
 
 #include <QGraphicsPixmapItem>
 #include <QObject>
+#include <vector>
 
 class Entidad : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
@@ -10,10 +11,13 @@ class Entidad : public QObject, public QGraphicsPixmapItem {
 protected:
     int posY;
     int posX;
+    int vida;
+    int daño;
 
 public:
     Entidad(const QString &imagePath, int x, int y, QGraphicsItem *parent = nullptr);
-    void setPosicion(int x, int y);
-    QPoint getPosicion() const;};
-
+    int getPosicionX();
+    int getPosicionY();
+    void actualizar(int,int);
+    bool colisionaCon(std::vector<QRect> rects,QRect r1);};
 #endif // ENTIDAD_H

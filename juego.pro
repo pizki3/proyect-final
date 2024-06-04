@@ -12,11 +12,13 @@ SOURCES += \
     entidad.cpp \
     main.cpp \
     mainwindow.cpp \
+    particula.cpp \
     personaje.cpp
 
 HEADERS += \
     entidad.h \
     mainwindow.h \
+    particula.h \
     personaje.h
 
 FORMS += \

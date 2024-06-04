@@ -3,19 +3,25 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QKeyEvent>
+#include <vector>
 #include "personaje.h"
-#include "entidad.h" // Incluir entidad.h
+#include "particula.h"
 
-namespace Ui {
-class MainWindow;
-}
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
     void followPlayer();
@@ -24,8 +30,9 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     Personaje *personaje;
-    std::vector<Entidad*> entidades; // Declarar entidad
+    Personaje *tigre;
+    Particula *particula;
+    std::vector<QRect> rects;
 };
 
 #endif // MAINWINDOW_H
-

@@ -4,25 +4,14 @@
 #include "entidad.h"
 #include <QKeyEvent>
 #include <QTimer>
+#include <vector>
+#include <QRect>
 
 class Personaje : public Entidad {
     Q_OBJECT
 public:
-    Personaje(const QString &imagePath, int x, int y, QGraphicsItem *parent = nullptr);
-    void keyPressEvent(QKeyEvent *event) override;
-
-signals:
-    void posChanged();  // Señal para notificar el cambio de posición
-
-private slots:
-    void jump();
-
+    Personaje(const QString &imagePath, int x, int y, std::vector<QRect> rects_, QGraphicsItem *parent = nullptr);
 private:
-    QTimer *jumpTimer;
-    bool jumpingUp;
-    int jumpHeight;
-    int jumpSpeed;
-    int initialY;
-};
+    std::vector<QRect> rects;};
 
 #endif // PERSONAJE_H

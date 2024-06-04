@@ -6,5 +6,7 @@
         <file>images/Bloques/Madera.png</file>
         <file>images/Bloques/Madera2.png</file>
         <file>images/Bloques/Madera3.png</file>
+        <file>images/Enemigos/Tigre.png</file>
+        <file>images/Personaje principal/Roca.png</file>
     </qresource>
 </RCC>
