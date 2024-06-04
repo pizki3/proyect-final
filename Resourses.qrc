@@ -8,5 +8,6 @@
         <file>images/Bloques/Madera3.png</file>
         <file>images/Enemigos/Tigre.png</file>
         <file>images/Personaje principal/Roca.png</file>
+        <file>images/Pausa.png</file>
     </qresource>
 </RCC>

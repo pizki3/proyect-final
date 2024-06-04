@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <vector>
+#include "bolafuego.h"
 #include "personaje.h"
 #include "particula.h"
 
@@ -19,12 +20,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void createObstacles(int count);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
     void followPlayer();
+    void pausarJuego();
+
 
 private:
     Ui::MainWindow *ui;
@@ -32,7 +36,10 @@ private:
     Personaje *personaje;
     Personaje *tigre;
     Particula *particula;
+    BolaFuego *Bola;
+    bool juegoPausado;
     std::vector<QRect> rects;
+    std::vector<Entidad*> entidades;
 };
 
 #endif // MAINWINDOW_H
