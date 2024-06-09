@@ -79,15 +79,14 @@ MainWindow::MainWindow(QWidget *parent)
         rects.push_back(QRect(posi, 595, 60, 80));
         posi += 80;
         scene->addItem(nuevaEntidad);}
-
-    personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506, rects);
+    int velo=80;
+    personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     scene->addItem(personaje);
-    int velo=80;
     Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3);
     scene->addItem(Bola);
-    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485, rects);
+    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485,velo,45*(3.1415/180), rects);
     scene->addItem(tigre);
     qDebug() << "Personaje creado y agregado a la escena en la posición" << personaje->pos();
     particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,ui->lcdNumber,ui->textBrowser);
@@ -143,8 +142,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (!juegoPausado) {
         // Procesar eventos de teclado solo si el juego no está pausado
-        int newX = personaje->getPosicionX();
-        int newY = personaje->getPosicionY();
+        int newX = personaje->pos().x();
+        int newY = personaje->pos().y();
 
         QString nuevaImagen;
 
@@ -199,7 +198,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             particula->setPos(newX, newY);
 
             // Llamar a followPlayer para ajustar la vista según la posición del personaje
-            followPlayer();}}}
+            followPlayer();
+        }
+    }
+}
+
 
 
 void MainWindow::pausarJuego()
