@@ -23,3 +23,5 @@ bool Entidad::colisionaCon(std::vector<QRect> rects,QRect r1){
         if(r1.intersects(rects[i])){
             return r1.intersects(rects[i]);}}
     return r1.intersects(rects[0]);}
+
+Entidad::~Entidad(){}

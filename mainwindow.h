@@ -41,6 +41,7 @@ private:
     BolaFuego *Bola;
     bool juegoPausado;
     std::vector<QRect> rects;
+    std::vector<QRect> enemigos;
     std::vector<Entidad*> entidades;
 };
 

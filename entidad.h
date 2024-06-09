@@ -16,6 +16,7 @@ protected:
 
 public:
     Entidad(const QString &imagePath, int x, int y, QGraphicsItem *parent = nullptr);
+    ~Entidad();
     int getPosicionX();
     int getPosicionY();
     void actualizar(int,int);

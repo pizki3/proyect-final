@@ -80,14 +80,15 @@ MainWindow::MainWindow(QWidget *parent)
         posi += 80;
         scene->addItem(nuevaEntidad);}
     int velo=60;
-    personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects);
+    Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3);
+    scene->addItem(Bola);
+    enemigos.push_back(QRect(90*20, 485, 60, 80));
+    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485,velo,45*(3.1415/180), rects,enemigos);
+    scene->addItem(tigre);
+    personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects, enemigos);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     scene->addItem(personaje);
-    Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3);
-    scene->addItem(Bola);
-    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485,velo,45*(3.1415/180), rects);
-    scene->addItem(tigre);
     qDebug() << "Personaje creado y agregado a la escena en la posición" << personaje->pos();
     particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,ui->lcdNumber,ui->textBrowser);
     particula->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -192,11 +193,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             particula->actualizar(newX, newY);
             particula->setPos(newX, newY);
 
-            // Llamar a followPlayer para ajustar la vista según la posición del personaje
-            followPlayer();
-        }
-    }
-}
+            followPlayer();}
+        if (personaje->colisionaCon(enemigos, R1)){
+            personaje->setPos(0,506);
+            personaje->actualizar(0,506);
+            particula->actualizar(0,506);
+            particula->setPos(0,506);
+            followPlayer();}}}
+
 
 
 

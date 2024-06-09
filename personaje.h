@@ -9,8 +9,8 @@
 class Personaje : public Entidad {
     Q_OBJECT
 public:
-    Personaje(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects_);
-
+    Personaje(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects,std::vector<QRect> enemigos);
+    ~Personaje();
     void startAnimation();
     void startAnimation2();
     void actualizar(int x, int y);
@@ -26,11 +26,11 @@ private:
     QTimer *animationTimer;
     QTimer *animationTimer2;
     std::vector<QRect> rects;
+    std::vector<QRect> enemigos;
     float tiempoTrans;
 
 private slots:
     void updatePosition();
-    void updatePosition2();
-};
+    void updatePosition2();};
 
 #endif // PERSONAJE_H

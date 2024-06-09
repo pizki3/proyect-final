@@ -3,17 +3,17 @@
 #include <QGraphicsScene>
 #include <QColor>
 #include <cmath>
+#include <iostream>
 
-Personaje::Personaje(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects_)
-    : Entidad(imagePath, x, y, nullptr), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_)
+Personaje::Personaje(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects_,std::vector<QRect> enemigos_)
+    : Entidad(imagePath, x, y, nullptr), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_),enemigos(enemigos_)
 {
     xIn = pos().x();
     yIn = pos().y();
     animationTimer = new QTimer(this);
     animationTimer2 = new QTimer(this);
     connect(animationTimer, &QTimer::timeout, this, &Personaje::updatePosition);
-    connect(animationTimer2, &QTimer::timeout, this, &Personaje::updatePosition2);
-}
+    connect(animationTimer2, &QTimer::timeout, this, &Personaje::updatePosition2);}
 
 void Personaje::startAnimation()
 {
@@ -99,7 +99,7 @@ void Personaje::movimiento(float *dt)
         yIn = posY;
         theta = 0;}
 
-    QRect R1(posX, posY, 10, 70);
+    QRect R1(posX, posY, 40, 70);
     if (colisionaCon(rects, R1)) {
         if (jumpVelocity * sin(theta) - gravity * *dt > 0) {
             animationTimer->stop();
@@ -109,4 +109,25 @@ void Personaje::movimiento(float *dt)
             setPos(posX, posY - 22);}
         return;}
     setPos(posX, posY);}
+
+Personaje::~Personaje() {
+    std::cout << "Destructor de Personaje llamado" << std::endl;
+
+    if (scene()) {
+        scene()->removeItem(this);
+    }
+
+    // También es una buena práctica detener cualquier temporizador activo.
+    if (animationTimer) {
+        animationTimer->stop();
+        delete animationTimer;
+        animationTimer = nullptr;
+    }
+
+    if (animationTimer2) {
+        animationTimer2->stop();
+        delete animationTimer2;
+        animationTimer2 = nullptr;
+    }
+}
 
