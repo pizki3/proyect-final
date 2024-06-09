@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
         rects.push_back(QRect(posi, 595, 60, 80));
         posi += 80;
         scene->addItem(nuevaEntidad);}
-    int velo=80;
+    int velo=60;
     personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
@@ -157,14 +157,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             nuevaImagen = ":/images/Personaje principal/Caminar.png";
             break;
         case Qt::Key_E:
-            newY -= 90;
-            newX += 80;
-            nuevaImagen = ":/images/Personaje principal/Personaje_salto_derecha.png";
+            personaje->actualizar(newX,newY);
+            personaje->startAnimation();
             break;
         case Qt::Key_Q:
-            newY -= 90;
-            newX -= 80;
-            nuevaImagen = ":/images/Personaje principal/Personaje_salto_izquierda.png";
+            personaje->actualizar(newX,newY);
+            personaje->startAnimation2();
             break;
         case Qt::Key_S:
             newY += 10;
@@ -181,9 +179,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         default:
             return;
         }
-
-        // Cambiar la imagen del personaje
-        personaje->setImagen(nuevaImagen);
 
         // Usar un QTimer para volver a la imagen original después de un breve período de tiempo
         QTimer::singleShot(400, [this]() {

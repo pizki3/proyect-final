@@ -37,7 +37,7 @@ void Particula::resetPosition()
 
 void Particula::movParabolico(float *dt)
 {
-    int dir = 1;
+    int dir=1;
     QRectF sceneRect = scene()->sceneRect();
     viewRect = QSize(sceneRect.width(), sceneRect.height());
 
