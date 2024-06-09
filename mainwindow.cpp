@@ -5,6 +5,8 @@
 #include "particula.h"
 #include "bolafuego.h"
 #include <QDebug>
+#include <QLabel>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -82,12 +84,13 @@ MainWindow::MainWindow(QWidget *parent)
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     scene->addItem(personaje);
-    Bola = new BolaFuego(":/images/Personaje principal/Roca.png",0,0, 50, 3);
+    int velo=80;
+    Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3);
     scene->addItem(Bola);
     tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485, rects);
     scene->addItem(tigre);
     qDebug() << "Personaje creado y agregado a la escena en la posición" << personaje->pos();
-    particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects);
+    particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,ui->lcdNumber,ui->textBrowser);
     particula->setFlag(QGraphicsItem::ItemIsFocusable);
     particula->setFocus();
     scene->addItem(particula);
@@ -103,6 +106,9 @@ MainWindow::~MainWindow()
     }
 }
 
+void MainWindow::Actualizarcronometro(float N){
+    ui->lcdNumber->display(QString::number(N, '5', 2));}
+
 void MainWindow::createObstacles(int count)
 {
     for (int i = 1; i <= count; ++i) {
@@ -113,59 +119,88 @@ void MainWindow::createObstacles(int count)
 
 void MainWindow::followPlayer()
 {
-    // Obtén la posición del personaje en relación con la vista
-    QPointF playerPos = ui->marcoVisualdeljuego->mapFromScene(personaje->pos());
+    // Distancia en el eje X a partir de la cual la vista seguirá al personaje
+    qreal distanciaInicioSeguir = 400.0; // Ajusta este valor según tus necesidades
 
-    // Obtén las dimensiones de la vista
-    QRectF viewRect = ui->marcoVisualdeljuego->viewport()->rect();
+    // Obtén la posición del personaje en la escena
+    QPointF playerPos = personaje->pos();
 
-    // Si el personaje se sale de la vista, centrar la vista en el personaje
-    if (!viewRect.contains(playerPos.toPoint())) {
-        ui->marcoVisualdeljuego->centerOn(personaje);}}
+    // Obtener la posición actual de la vista
+    qreal viewX = ui->marcoVisualdeljuego->horizontalScrollBar()->value();
+
+    // Calcular la nueva posición de la vista
+    qreal nuevaPosicionVistaX = playerPos.x() - distanciaInicioSeguir;
+
+    // Actualizar la posición de la vista si la nueva posición es diferente
+    if (nuevaPosicionVistaX != viewX) {
+        ui->marcoVisualdeljuego->horizontalScrollBar()->setValue(nuevaPosicionVistaX);
+    }
+}
+
+
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
-{   if (!juegoPausado) {
+{
+    if (!juegoPausado) {
         // Procesar eventos de teclado solo si el juego no está pausado
         int newX = personaje->getPosicionX();
         int newY = personaje->getPosicionY();
 
+        QString nuevaImagen;
+
         switch (event->key()) {
         case Qt::Key_A:
-            newX -= 10;
+            newX -= 8;
+            nuevaImagen = ":/images/Personaje principal/Caminar1.png";
             break;
         case Qt::Key_D:
-            newX += 10;
+            newX += 8;
+            nuevaImagen = ":/images/Personaje principal/Caminar.png";
             break;
         case Qt::Key_E:
             newY -= 90;
             newX += 80;
+            nuevaImagen = ":/images/Personaje principal/Personaje_salto_derecha.png";
             break;
         case Qt::Key_Q:
             newY -= 90;
             newX -= 80;
+            nuevaImagen = ":/images/Personaje principal/Personaje_salto_izquierda.png";
             break;
         case Qt::Key_S:
             newY += 10;
+            nuevaImagen = ":/images/Personaje principal/Personaje_agachado.png";
             break;
         case Qt::Key_W:
             newY -= 90;
+            nuevaImagen = ":/images/Personaje principal/Personaje_salto.png";
             break;
         case Qt::Key_P:
-            particula->actualizar(newX,newY);
+            particula->actualizar(newX, newY);
             particula->startAnimation();
-            Bola->startAnimation();
-            break;
-
+            return; // No cambiar la imagen del personaje al presionar P
         default:
             return;
         }
+
+        // Cambiar la imagen del personaje
+        personaje->setImagen(nuevaImagen);
+
+        // Usar un QTimer para volver a la imagen original después de un breve período de tiempo
+        QTimer::singleShot(400, [this]() {
+            personaje->setImagen(":/images/Personaje principal/Personaje.png");
+        });
 
         QRect R1(newX, newY, 80, 80);
         if (!personaje->colisionaCon(rects, R1)) {
             personaje->setPos(newX, newY);
             personaje->actualizar(newX, newY);
             particula->actualizar(newX, newY);
-            particula->setPos(newX, newY);}}}
+            particula->setPos(newX, newY);
+
+            // Llamar a followPlayer para ajustar la vista según la posición del personaje
+            followPlayer();}}}
+
 
 void MainWindow::pausarJuego()
 {
@@ -174,7 +209,7 @@ void MainWindow::pausarJuego()
     if (juegoPausado) {
         // Si el juego está pausado, desactivar el foco del widget principal
         ui->marcoVisualdeljuego->clearFocus();
-
+        Bola->stopanimation();
         // Crear un grupo para la imagen de pausa
         QGraphicsItemGroup *pausaGroup = new QGraphicsItemGroup;
 
@@ -193,21 +228,14 @@ void MainWindow::pausarJuego()
         // Posicionar la imagen justo debajo del botón de pausa
         pausaItem->setPos(botonPosScene.x()-50, botonPosScene.y()+200);
         pausaGroup->addToGroup(pausaItem);
-        scene->addItem(pausaGroup);
-    } else {
-        // Si el juego se reanuda, eliminar la imagen de pausa si existe
+        scene->addItem(pausaGroup);}
+
+    else {// Si el juego se reanuda, eliminar la imagen de pausa si existe
         QList<QGraphicsItem*> items = scene->items();
+        Bola->startAnimation();
         for (QGraphicsItem *item : items) {
             if (dynamic_cast<QGraphicsItemGroup*>(item)) {
                 scene->removeItem(item);
                 delete item;
-                break; // Solo eliminar el primer grupo encontrado
-            }
-        }
-
-        // Enfocar nuevamente el widget principal
-        ui->marcoVisualdeljuego->setFocus();
-    }
-}
-
-
+                break;}}
+        ui->marcoVisualdeljuego->setFocus();}}

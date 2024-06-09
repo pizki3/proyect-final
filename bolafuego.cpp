@@ -10,14 +10,15 @@ BolaFuego::BolaFuego(const QString &imagePath, int x, int y, qreal radius, qreal
 
 void BolaFuego::startAnimation()
 {
-    animationTimer->start(10); // Llama a updatePosition cada 10 ms
-}
+    animationTimer->start(10);}
+
+void BolaFuego::stopanimation(){
+    animationTimer->stop();}
 
 void BolaFuego::updatePosition()
 {
     angle += angularVelocity * 0.01; // Incrementa el ángulo para el movimiento circular
-    movCircular(&angle);
-}
+    movCircular(&angle);}
 
 void BolaFuego::movCircular(qreal *dt)
 {
@@ -27,6 +28,5 @@ void BolaFuego::movCircular(qreal *dt)
     qreal posX = xCenter + radius * cos(*dt);
     qreal posY = yCenter + radius * sin(*dt);
 
-    setPos(posX, posY);
-}
+    setPos(posX, posY);}
 

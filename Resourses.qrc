@@ -9,5 +9,8 @@
         <file>images/Enemigos/Tigre.png</file>
         <file>images/Personaje principal/Roca.png</file>
         <file>images/Pausa.png</file>
+        <file>images/Personaje principal/Caminar.png</file>
+        <file>images/Personaje principal/Caminar1.png</file>
+        <file>images/Personaje principal/Roca2.png</file>
     </qresource>
 </RCC>

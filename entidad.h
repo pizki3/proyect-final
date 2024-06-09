@@ -19,5 +19,7 @@ public:
     int getPosicionX();
     int getPosicionY();
     void actualizar(int,int);
+    void setImagen(const QString &imagen) {
+        setPixmap(QPixmap(imagen));}
     bool colisionaCon(std::vector<QRect> rects,QRect r1);};
 #endif // ENTIDAD_H

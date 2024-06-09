@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <vector>
+#include <QLCDNumber>
 #include "bolafuego.h"
 #include "personaje.h"
 #include "particula.h"
@@ -24,6 +25,7 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void Actualizarcronometro(float);
 
 private slots:
     void followPlayer();

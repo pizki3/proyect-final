@@ -14,14 +14,16 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     particula.cpp \
-    personaje.cpp
+    personaje.cpp \
+    tiempovuelowidget.cpp
 
 HEADERS += \
     bolafuego.h \
     entidad.h \
     mainwindow.h \
     particula.h \
-    personaje.h
+    personaje.h \
+    tiempovuelowidget.h
 
 FORMS += \
     mainwindow.ui

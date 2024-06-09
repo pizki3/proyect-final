@@ -17,8 +17,8 @@
    <widget class="QGraphicsView" name="marcoVisualdeljuego">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>-10</x>
+      <y>20</y>
       <width>1024</width>
       <height>667</height>
      </rect>
@@ -38,6 +38,26 @@
     </property>
     <property name="text">
      <string>Pausa</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>60</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>30</y>
+      <width>111</width>
+      <height>61</height>
+     </rect>
     </property>
    </widget>
   </widget>
