@@ -10,20 +10,20 @@ CONFIG += c++17
 
 SOURCES += \
     bolafuego.cpp \
+    enemigo.cpp \
     entidad.cpp \
     main.cpp \
     mainwindow.cpp \
     particula.cpp \
     personaje.cpp \
-    tiempovuelowidget.cpp
 
 HEADERS += \
     bolafuego.h \
+    enemigo.h \
     entidad.h \
     mainwindow.h \
     particula.h \
     personaje.h \
-    tiempovuelowidget.h
 
 FORMS += \
     mainwindow.ui

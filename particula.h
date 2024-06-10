@@ -11,7 +11,7 @@ class Particula : public Entidad {
     Q_OBJECT
 
 public:
-    Particula(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta,std::vector<QRect> rects,std::vector<QRect> enemigos,QLCDNumber *,QGraphicsItem *parent = nullptr);
+    Particula(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta,std::vector<QRect> rects,std::vector<QRect> *enemigos,std::vector<QRect> *armas,QLCDNumber *,QGraphicsItem *parent = nullptr);
 
     void movParabolico(float *dt);
     void startAnimation();
@@ -31,7 +31,9 @@ private:
     QTimer *animationTimer;
     QLCDNumber* lcdNumber;
     std::vector<QRect> rects;
-    std::vector<QRect> enemigos;
+    std::vector<QRect> *armas;
+    std::vector<QRect> *enemigos;
+    bool rei;
     float tiempoTrans;};
 
 #endif // PARTICULA_H

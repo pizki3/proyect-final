@@ -50,8 +50,8 @@ void Personaje::movimiento2(float *dt)
     viewRect = QSize(sceneRect.width(), sceneRect.height());
 
     qreal adjustedVelocity = velocity * 0.4;
-    qreal jumpVelocity = 60.0;
-    qreal gravity = 10;
+    qreal jumpVelocity = 65.0;
+    qreal gravity = 11;
 
     // Calculamos la nueva posición del personaje
     posX = xIn + (adjustedVelocity * cos(theta) * *dt) * dir;
@@ -85,8 +85,8 @@ void Personaje::movimiento(float *dt)
     viewRect = QSize(sceneRect.width(), sceneRect.height());
 
     qreal adjustedVelocity = velocity * 0.4;
-    qreal jumpVelocity = 60.0;
-    qreal gravity = 10;
+    qreal jumpVelocity = 70.0;
+    qreal gravity = 11;
 
     // Calculamos la nueva posición del personaje
     posX = xIn + (adjustedVelocity * cos(theta) * *dt) * dir;
@@ -114,3 +114,4 @@ void Personaje::movimiento(float *dt)
         setPos(0,506);
         return;}
     setPos(posX, posY);}
+

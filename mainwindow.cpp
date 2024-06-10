@@ -86,15 +86,16 @@ MainWindow::MainWindow(QWidget *parent)
     enemigos.push_back(QRect(0, 0, 10, 10));
     Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3,&enemigos);
     scene->addItem(Bola);
+    armas.push_back(QRect(0,506, 10, 10));
     enemigos.push_back(QRect(90*20, 485, 60, 80));
-    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485,velo,45*(3.1415/180), rects,&enemigos,this);
+    tigre=new Enemigo(":/images/Enemigos/Tigre", 90*20, 485,velo,3,&enemigos,&armas);
     scene->addItem(tigre);
     personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects, &enemigos,this);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     scene->addItem(personaje);
     qDebug() << "Personaje creado y agregado a la escena en la posición" << personaje->pos();
-    particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,enemigos,ui->lcdNumber);
+    particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,&enemigos,&armas,ui->lcdNumber);
     particula->setFlag(QGraphicsItem::ItemIsFocusable);
     particula->setFocus();
     scene->addItem(particula);
@@ -190,12 +191,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         QRect R1(newX, newY, 80, 80);
         if (!personaje->colisionaCon(rects, R1)) {
+            if (newX>90*22){
+                ui->marcoVisualdeljuego->setBackgroundBrush(QBrush(QImage(":/images/Fondo.jpeg")));}
             personaje->setPos(newX, newY);
             personaje->actualizar(newX, newY);
             particula->actualizar(newX, newY);
             particula->setPos(newX, newY);
 
             followPlayer();}
+
         if (personaje->colisionaCon(enemigos, R1)){
             personaje->setPos(0,506);
             personaje->actualizar(0,506);

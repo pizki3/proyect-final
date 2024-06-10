@@ -3,8 +3,8 @@
 #include <QGraphicsScene>
 #include <cmath>
 
-Particula::Particula(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta,std::vector<QRect> rects_,std::vector<QRect> enemigos_,QLCDNumber* lcdNumber_, QGraphicsItem *parent)
-    : Entidad(imagePath, x, y, parent), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_),enemigos(enemigos_)
+Particula::Particula(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta,std::vector<QRect> rects_,std::vector<QRect> *enemigos_,std::vector<QRect> *armas,QLCDNumber* lcdNumber_, QGraphicsItem *parent)
+    : Entidad(imagePath, x, y, parent), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_),enemigos(enemigos_),armas(armas)
 {   lcdNumber=lcdNumber_;
     xIn = posX;
     yIn = posY;
@@ -28,6 +28,7 @@ void Particula::updatePosition()
 
 void Particula::resetPosition()
 {
+    (*armas)[0] = QRect(0, yIn,10, 10);
     setPos(xIn, yIn);}
 
 void Particula::movParabolico(float *dt)
@@ -49,10 +50,22 @@ void Particula::movParabolico(float *dt)
         theta = 0;}
 
     QRect R1(posX, posY,10,10);
-    if (colisionaCon(rects,R1) || colisionaCon(enemigos,R1) ){
+
+    if (colisionaCon(rects,R1)){
         animationTimer->stop();
+        (*armas)[0] = QRect(posX, posY,80, 80);
         resetPosition();
         return;}
+    if (colisionaCon(*enemigos,R1) ){
+        rei=true;
+        if(rei==true){
+            (*armas)[0] = QRect(posX, posY,80, 80);
+            rei=false;}
+        else{
+            animationTimer->stop();
+            resetPosition();}
+        return;}
 
-    setPos(posX, posY);}
+    setPos(posX, posY);
+    (*armas)[0] = QRect(posX, posY,10, 10);}
 

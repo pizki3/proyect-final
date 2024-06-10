@@ -19,6 +19,8 @@ public:
     void actualizar(int x, int y);
     void movimiento(float *dt);
     void movimiento2(float *dt);
+    void movimientoIzquierda(float *dt);
+    void movimientoDerecha(float *dt);
     void init(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects, std::vector<QRect> *enemigos, MainWindow *mainWindow);
 
 private:

@@ -9,10 +9,12 @@
 #include "bolafuego.h"
 #include "personaje.h"
 #include "particula.h"
+#include "enemigo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 class Personaje;
 class MainWindow : public QMainWindow
 {
@@ -35,11 +37,13 @@ private:
     QGraphicsScene *scene;
     std::vector<QRect> rects;
     std::vector<QRect> enemigos;
+    std::vector<QRect> armas;
     std::vector<Entidad*> entidades;
     Personaje *personaje;
-    Personaje *tigre;
+    Enemigo *tigre;
     Particula *particula;
     BolaFuego *Bola;
+
     QTimer *timer;
     bool juegoPausado;
     float tiempoTranscurrido;};

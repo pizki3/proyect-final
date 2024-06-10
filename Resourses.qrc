@@ -12,5 +12,7 @@
         <file>images/Personaje principal/Caminar.png</file>
         <file>images/Personaje principal/Caminar1.png</file>
         <file>images/Personaje principal/Roca2.png</file>
+        <file>images/Enemigos/Tigre2.png</file>
+        <file>images/Fondo.jpeg</file>
     </qresource>
 </RCC>
