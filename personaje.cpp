@@ -5,8 +5,8 @@
 #include <cmath>
 #include <iostream>
 
-Personaje::Personaje(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects_,std::vector<QRect> enemigos_)
-    : Entidad(imagePath, x, y, nullptr), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_),enemigos(enemigos_)
+Personaje::Personaje(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta, std::vector<QRect> rects_,std::vector<QRect> *enemigos_,MainWindow *mainWindow)
+    : Entidad(imagePath, x, y, nullptr), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_),enemigos(enemigos_),mainWindow(mainWindow)
 {
     xIn = pos().x();
     yIn = pos().y();
@@ -35,12 +35,13 @@ void Personaje::updatePosition()
 {
     tiempoTrans += 0.1;
     movimiento(&tiempoTrans);
-}
+    mainWindow->followPlayer();}
 
 void Personaje::updatePosition2()
 {
     tiempoTrans += 0.1;
-    movimiento2(&tiempoTrans);}
+    movimiento2(&tiempoTrans);
+    mainWindow->followPlayer();}
 
 void Personaje::movimiento2(float *dt)
 {
@@ -108,26 +109,8 @@ void Personaje::movimiento(float *dt)
             animationTimer->stop();
             setPos(posX, posY - 22);}
         return;}
-    setPos(posX, posY);}
-
-Personaje::~Personaje() {
-    std::cout << "Destructor de Personaje llamado" << std::endl;
-
-    if (scene()) {
-        scene()->removeItem(this);
-    }
-
-    // También es una buena práctica detener cualquier temporizador activo.
-    if (animationTimer) {
+    if(colisionaCon(*enemigos, R1)){
         animationTimer->stop();
-        delete animationTimer;
-        animationTimer = nullptr;
-    }
-
-    if (animationTimer2) {
-        animationTimer2->stop();
-        delete animationTimer2;
-        animationTimer2 = nullptr;
-    }
-}
-
+        setPos(0,506);
+        return;}
+    setPos(posX, posY);}

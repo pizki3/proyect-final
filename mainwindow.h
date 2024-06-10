@@ -13,7 +13,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
+class Personaje;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -22,12 +22,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void createObstacles(int count);
-
-protected:
     void keyPressEvent(QKeyEvent *event) override;
-    void Actualizarcronometro(float);
+    void actualizarTiempo();
 
-private slots:
+public slots:
     void followPlayer();
     void pausarJuego();
 
@@ -35,14 +33,15 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
+    std::vector<QRect> rects;
+    std::vector<QRect> enemigos;
+    std::vector<Entidad*> entidades;
     Personaje *personaje;
     Personaje *tigre;
     Particula *particula;
     BolaFuego *Bola;
+    QTimer *timer;
     bool juegoPausado;
-    std::vector<QRect> rects;
-    std::vector<QRect> enemigos;
-    std::vector<Entidad*> entidades;
-};
+    float tiempoTranscurrido;};
 
 #endif // MAINWINDOW_H

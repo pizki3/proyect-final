@@ -19,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->marcoVisualdeljuego->setScene(scene);
     ui->marcoVisualdeljuego->setBackgroundBrush(QBrush(QImage(":/images/Fondo.jpg")));
     connect(ui->btnPause, &QPushButton::clicked, this, &MainWindow::pausarJuego);
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow::actualizarTiempo);
+    timer->start(100);
 
 
     // Creamos suelo
@@ -80,17 +83,18 @@ MainWindow::MainWindow(QWidget *parent)
         posi += 80;
         scene->addItem(nuevaEntidad);}
     int velo=60;
-    Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3);
+    enemigos.push_back(QRect(0, 0, 10, 10));
+    Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3,&enemigos);
     scene->addItem(Bola);
     enemigos.push_back(QRect(90*20, 485, 60, 80));
-    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485,velo,45*(3.1415/180), rects,enemigos);
+    tigre=new Personaje(":/images/Enemigos/Tigre", 90*20, 485,velo,45*(3.1415/180), rects,&enemigos,this);
     scene->addItem(tigre);
-    personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects, enemigos);
+    personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects, &enemigos,this);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     scene->addItem(personaje);
     qDebug() << "Personaje creado y agregado a la escena en la posición" << personaje->pos();
-    particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,ui->lcdNumber,ui->textBrowser);
+    particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,enemigos,ui->lcdNumber);
     particula->setFlag(QGraphicsItem::ItemIsFocusable);
     particula->setFocus();
     scene->addItem(particula);
@@ -105,9 +109,6 @@ MainWindow::~MainWindow()
         delete particula;
     }
 }
-
-void MainWindow::Actualizarcronometro(float N){
-    ui->lcdNumber->display(QString::number(N, '5', 2));}
 
 void MainWindow::createObstacles(int count)
 {
@@ -160,6 +161,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_E:
             personaje->actualizar(newX,newY);
             personaje->startAnimation();
+            followPlayer();
             break;
         case Qt::Key_Q:
             personaje->actualizar(newX,newY);
@@ -235,9 +237,18 @@ void MainWindow::pausarJuego()
     else {// Si el juego se reanuda, eliminar la imagen de pausa si existe
         QList<QGraphicsItem*> items = scene->items();
         Bola->startAnimation();
+        timer->start();
         for (QGraphicsItem *item : items) {
             if (dynamic_cast<QGraphicsItemGroup*>(item)) {
                 scene->removeItem(item);
                 delete item;
                 break;}}
         ui->marcoVisualdeljuego->setFocus();}}
+
+void MainWindow::actualizarTiempo() {
+    if (juegoPausado==true){
+        timer->stop();}
+    else{
+        tiempoTranscurrido += 0.1;
+        ui->lcdNumber->display(QString::number(tiempoTranscurrido, 'f',0 ));}
+}

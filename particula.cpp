@@ -3,11 +3,9 @@
 #include <QGraphicsScene>
 #include <cmath>
 
-Particula::Particula(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta,std::vector<QRect> rects_,QLCDNumber* lcdNumber_,QTextBrowser*dis_, QGraphicsItem *parent)
-    : Entidad(imagePath, x, y, parent), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0)
-{   rects=rects_;
-    lcdNumber=lcdNumber_;
-    dis=dis_;
+Particula::Particula(const QString &imagePath, int x, int y, qreal initialVelocity, qreal initialTheta,std::vector<QRect> rects_,std::vector<QRect> enemigos_,QLCDNumber* lcdNumber_, QGraphicsItem *parent)
+    : Entidad(imagePath, x, y, parent), velocity(initialVelocity), theta(initialTheta), tiempoTrans(0.0), rects(rects_),enemigos(enemigos_)
+{   lcdNumber=lcdNumber_;
     xIn = posX;
     yIn = posY;
     animationTimer = new QTimer(this);
@@ -16,8 +14,7 @@ Particula::Particula(const QString &imagePath, int x, int y, qreal initialVeloci
 void Particula::startAnimation()
 {
     tiempoTrans = 0.0;
-    animationTimer->start(10);
-}
+    animationTimer->start(10);}
 
 void Particula::actualizar(int x,int y)
 {
@@ -27,8 +24,6 @@ void Particula::actualizar(int x,int y)
 void Particula::updatePosition()
 {
     tiempoTrans += 0.1;
-    lcdNumber->display(QString::number(tiempoTrans, '5', 2));
-    dis->append(QString::number(posX));
     movParabolico(&tiempoTrans);}
 
 void Particula::resetPosition()
@@ -53,8 +48,8 @@ void Particula::movParabolico(float *dt)
         yIn = posY;
         theta = 0;}
 
-    QRect R1(posX, posY, 80, 80);
-    if (colisionaCon(rects,R1)){
+    QRect R1(posX, posY,10,10);
+    if (colisionaCon(rects,R1) || colisionaCon(enemigos,R1) ){
         animationTimer->stop();
         resetPosition();
         return;}
