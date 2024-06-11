@@ -10,7 +10,7 @@ class BolaFuego : public Entidad {
     Q_OBJECT
 
 public:
-    BolaFuego(const QString &imagePath, int x, int y, qreal radius, qreal angularVelocity, std::vector<QRect> *enemigos,QGraphicsItem *parent = nullptr);
+    BolaFuego(const QString &imagePath, int x, int y, qreal radius, qreal angularVelocity, std::vector<QRect> *enemigos,int,QGraphicsItem *parent = nullptr);
 
     void startAnimation();
     void stopanimation();
@@ -26,6 +26,7 @@ private:
     qreal angle;
     QTimer *animationTimer;
     float tiempotrans;
+    int pos;
 };
 
 #endif // BOLAFUEGO_H

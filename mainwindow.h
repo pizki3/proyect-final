@@ -39,10 +39,11 @@ private:
     std::vector<QRect> enemigos;
     std::vector<QRect> armas;
     std::vector<Entidad*> entidades;
+    std::vector<BolaFuego*> bolas;
     Personaje *personaje;
     Enemigo *tigre;
+    Enemigo *serpiente;
     Particula *particula;
-    BolaFuego *Bola;
 
     QTimer *timer;
     bool juegoPausado;

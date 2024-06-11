@@ -68,4 +68,3 @@ void Particula::movParabolico(float *dt)
 
     setPos(posX, posY);
     (*armas)[0] = QRect(posX, posY,10, 10);}
-

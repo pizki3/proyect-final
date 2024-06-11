@@ -14,5 +14,10 @@
         <file>images/Personaje principal/Roca2.png</file>
         <file>images/Enemigos/Tigre2.png</file>
         <file>images/Fondo.jpeg</file>
+        <file>images/Personaje principal/Personaje2.png</file>
+        <file>images/Personaje principal/bala.png</file>
+        <file>images/Personaje principal/Roca3.png</file>
+        <file>images/Bloques/Lava.png</file>
+        <file>images/Enemigos/serpiente.png</file>
     </qresource>
 </RCC>

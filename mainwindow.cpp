@@ -30,11 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
     for (i = 0; i < 6; ++i) {
         Entidad* nuevaEntidad = new Entidad(":/images/Bloques/Suelo.png", posi, 578);
         entidades.push_back(nuevaEntidad);
-        rects.push_back(QRect(posi, 595, 60, 80));
+        rects.push_back(QRect(posi, 595, 90, 90));
         posi += 80;
         scene->addItem(nuevaEntidad);}
     posi += 80;
-    int pos=posi;
     Entidad* nuevaEntidad2 = new Entidad(":/images/Bloques/Madera.png", posi - 80, 504);
     entidades.push_back(nuevaEntidad2);
     rects.push_back(QRect(posi - 80, 504 + 10, 60, 80));
@@ -61,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addItem(nuevaEntidad2);
     nuevaEntidad2 = new Entidad(":/images/Bloques/Madera3.png", posi - 160 - 160 - 160 - 80, 504 - 180 - 90);
     entidades.push_back(nuevaEntidad2);
-    rects.push_back(QRect(posi - 160 - 160 - 160 - 80, 504 - 180 - 90 + 10, 60, 80));
+    rects.push_back(QRect(posi - 160 - 160 - 160 - 80, 504 - 180 - 90 + 5, 60, 70));
     scene->addItem(nuevaEntidad2);
     nuevaEntidad2 = new Entidad(":/images/Bloques/Madera2.png", posi - 160 - 160 - 80, 504 - 360);
     entidades.push_back(nuevaEntidad2);
@@ -79,22 +78,39 @@ MainWindow::MainWindow(QWidget *parent)
     for (i = 0; i < 15; ++i) {
         Entidad* nuevaEntidad = new Entidad(":/images/Bloques/Suelo.png", posi, 578);
         entidades.push_back(nuevaEntidad);
-        rects.push_back(QRect(posi, 595, 60, 80));
+        rects.push_back(QRect(posi, 595, 80, 80));
+        posi += 80;
+        scene->addItem(nuevaEntidad);}
+    for (i = 0; i < 23; ++i) {
+        Entidad* nuevaEntidad = new Entidad(":/images/Bloques/Madera2.png", posi, 578);
+        entidades.push_back(nuevaEntidad);
+        rects.push_back(QRect(posi, 595,80, 80));
         posi += 80;
         scene->addItem(nuevaEntidad);}
     int velo=60;
-    enemigos.push_back(QRect(0, 0, 10, 10));
-    Bola = new BolaFuego(":/images/Personaje principal/Roca2.png",0,0, velo, 3,&enemigos);
-    scene->addItem(Bola);
+    posi=2200;
+    for (i = 0; i < 4; ++i) {
+        BolaFuego* nuevabola = new BolaFuego(":/images/Personaje principal/Roca3.png",posi,450, velo, 3,&enemigos,i);
+        bolas.push_back(nuevabola);
+        rects.push_back(QRect(posi, 450,30, 20));
+        enemigos.push_back(QRect(posi, 450,30, 20));
+        posi+=270;
+        scene->addItem(nuevabola);}
+    enemigos.push_back(QRect(500,150,30,20));
+    BolaFuego* nuevabola = new BolaFuego(":/images/Personaje principal/Roca2.png",500,150, 100, 3,&enemigos,4);
+    bolas.push_back(nuevabola);
+    scene->addItem(nuevabola);
     armas.push_back(QRect(0,506, 10, 10));
     enemigos.push_back(QRect(90*20, 485, 60, 80));
     tigre=new Enemigo(":/images/Enemigos/Tigre", 90*20, 485,velo,3,&enemigos,&armas);
     scene->addItem(tigre);
+    enemigos.push_back(QRect(90*20, 485, 60, 80));
+    serpiente=new Enemigo(":/images/Enemigos/serpiente.png", 90*50, 485,velo,3,&enemigos,&armas);
+    scene->addItem(serpiente);
     personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects, &enemigos,this);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     scene->addItem(personaje);
-    qDebug() << "Personaje creado y agregado a la escena en la posición" << personaje->pos();
     particula = new Particula(":/images/Personaje principal/Roca.png", 0, 506,60,45*(3.1415/180),rects,&enemigos,&armas,ui->lcdNumber);
     particula->setFlag(QGraphicsItem::ItemIsFocusable);
     particula->setFocus();
@@ -179,19 +195,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_P:
             particula->actualizar(newX, newY);
             particula->startAnimation();
-            return; // No cambiar la imagen del personaje al presionar P
+            return;
         default:
             return;
         }
 
-        // Usar un QTimer para volver a la imagen original después de un breve período de tiempo
-        QTimer::singleShot(400, [this]() {
-            personaje->setImagen(":/images/Personaje principal/Personaje.png");
-        });
 
         QRect R1(newX, newY, 80, 80);
         if (!personaje->colisionaCon(rects, R1)) {
             if (newX>90*22){
+                particula->setImagen(":/images/Personaje principal/bala.png");
+                personaje->setImagen(":/images/Personaje principal/Personaje2.png");
                 ui->marcoVisualdeljuego->setBackgroundBrush(QBrush(QImage(":/images/Fondo.jpeg")));}
             personaje->setPos(newX, newY);
             personaje->actualizar(newX, newY);
@@ -217,7 +231,7 @@ void MainWindow::pausarJuego()
     if (juegoPausado) {
         // Si el juego está pausado, desactivar el foco del widget principal
         ui->marcoVisualdeljuego->clearFocus();
-        Bola->stopanimation();
+        bolas[0]->stopanimation();
         // Crear un grupo para la imagen de pausa
         QGraphicsItemGroup *pausaGroup = new QGraphicsItemGroup;
 
@@ -240,7 +254,7 @@ void MainWindow::pausarJuego()
 
     else {// Si el juego se reanuda, eliminar la imagen de pausa si existe
         QList<QGraphicsItem*> items = scene->items();
-        Bola->startAnimation();
+        bolas[0]->startAnimation();
         timer->start();
         for (QGraphicsItem *item : items) {
             if (dynamic_cast<QGraphicsItemGroup*>(item)) {

@@ -75,6 +75,10 @@ void Personaje::movimiento2(float *dt)
             animationTimer2->stop();
             setPos(posX, posY - 22);}
         return;}
+    if(colisionaCon(*enemigos, R1) || posY>580){
+        animationTimer->stop();
+        setPos(0,506);
+        return;}
     setPos(posX, posY);}
 
 
@@ -87,8 +91,8 @@ void Personaje::movimiento(float *dt)
     qreal adjustedVelocity = velocity * 0.4;
     qreal jumpVelocity = 70.0;
     qreal gravity = 11;
-
     // Calculamos la nueva posición del personaje
+
     posX = xIn + (adjustedVelocity * cos(theta) * *dt) * dir;
     posY = yIn - (jumpVelocity * sin(theta) * *dt) + (0.5 * gravity * *dt * *dt);
 
@@ -98,8 +102,11 @@ void Personaje::movimiento(float *dt)
         xIn = posX + 10 * dir;
         *dt = 0;
         yIn = posY;
+        std::cout<<posY<<"altura";
         theta = 0;}
-
+    else if (theta==0){
+        velocity=60;
+        theta=45*(3.1415/180);}
     QRect R1(posX, posY, 40, 70);
     if (colisionaCon(rects, R1)) {
         if (jumpVelocity * sin(theta) - gravity * *dt > 0) {
@@ -109,9 +116,10 @@ void Personaje::movimiento(float *dt)
             animationTimer->stop();
             setPos(posX, posY - 22);}
         return;}
-    if(colisionaCon(*enemigos, R1)){
+    if(colisionaCon(*enemigos, R1) || posY>580){
         animationTimer->stop();
         setPos(0,506);
         return;}
+
     setPos(posX, posY);}
 

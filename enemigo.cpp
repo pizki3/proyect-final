@@ -30,13 +30,12 @@ void Enemigo::updatePosition()
 
 void Enemigo::movimiento()
 {
-    setPixmap(QPixmap(":/images/Enemigos/Tigre"));
     if (posX >limi)
-        {derecha = false;}
+    {derecha = false;}
     else if (posX < lims)
-        {derecha = true;}
+    {derecha = true;}
     if (derecha==true)
-        {posX += 1;
+    {posX += 1;
         (*enemigos)[1] = QRect(posX, posY, 80, 80);}
     else{
         posX -= 5;
@@ -46,9 +45,11 @@ void Enemigo::movimiento()
         setPixmap(QPixmap(":/images/Enemigos/Tigre2"));
         vida=vida-1;
         std::cout<<vida<<std::endl;}
+    else{
+        //setPixmap(QPixmap(":/images/Enemigos/Tigre"));
+    }
     if(vida==0){
         setPixmap(QPixmap());
-        (*enemigos)[1] = QRect(-posX, -posY, 80, 80);
+        (*enemigos)[5] = QRect(-posX, -posY, 80, 80);
         animationTimer->stop();}
     setPos(posX, posY);}
-
