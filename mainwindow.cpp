@@ -104,9 +104,8 @@ MainWindow::MainWindow(QWidget *parent)
     enemigos.push_back(QRect(90*20, 485, 60, 80));
     tigre=new Enemigo(":/images/Enemigos/Tigre", 90*20, 485,velo,3,&enemigos,&armas);
     scene->addItem(tigre);
-    enemigos.push_back(QRect(90*20, 485, 60, 80));
-    serpiente=new Enemigo(":/images/Enemigos/serpiente.png", 90*50, 485,velo,3,&enemigos,&armas);
-    scene->addItem(serpiente);
+    //serpiente=new Enemigo(":/images/Enemigos/serpiente.png", 90*40, 506,velo,3,&enemigos,&armas);
+    //scene->addItem(serpiente);
     personaje = new Personaje(":/images/Personaje principal/Personaje.png", 0, 506,velo,45*(3.1415/180), rects, &enemigos,this);
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();

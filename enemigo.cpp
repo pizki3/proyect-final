@@ -46,7 +46,7 @@ void Enemigo::movimiento()
         vida=vida-1;
         std::cout<<vida<<std::endl;}
     else{
-        //setPixmap(QPixmap(":/images/Enemigos/Tigre"));
+        setPixmap(QPixmap(":/images/Enemigos/Tigre"));
     }
     if(vida==0){
         setPixmap(QPixmap());
